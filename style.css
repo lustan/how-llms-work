@@ -11,9 +11,9 @@
   --red:#DF1B41;--red-d:rgba(223,27,65,0.08);
   --txt:#3C4257;--txt2:#697386;--txt-b:#1A1F36;
   --ink:#1A1F36;--ink-inv:#FFFFFF;
-  --df:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  --ds:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  --db:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --df:'Inter','Noto Sans SC','PingFang SC','Microsoft YaHei',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --ds:'Inter','Noto Sans SC','PingFang SC','Microsoft YaHei',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --db:'Inter','Noto Sans SC','PingFang SC','Microsoft YaHei',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --dm:'JetBrains Mono','Courier New',monospace;
   --radius:8px;--radius-sm:6px;
   --shadow-sm:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.05);
@@ -49,6 +49,12 @@ button:focus-visible,[role="button"]:focus-visible,input:focus-visible,textarea:
 .tnav-btn:hover{color:var(--ink);background:var(--surface)}
 .tnav-btn.active{color:var(--accent);background:var(--accent-d);font-weight:600}
 .tnav-btn:focus-visible{outline:none;box-shadow:var(--focus-ring)}
+
+.language-switcher{display:inline-flex;align-items:center;gap:2px;margin-right:8px;padding:2px;border:1px solid var(--border);border-radius:999px;background:var(--surface);flex-shrink:0}
+.lang-btn{border:0;background:transparent;color:var(--txt2);font-family:var(--ds);font-size:11px;font-weight:700;line-height:1;min-width:30px;height:24px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s,box-shadow .15s}
+.lang-btn:hover{color:var(--ink)}
+.lang-btn.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(99,91,255,0.2)}
+.lang-btn:focus-visible{outline:none;box-shadow:var(--focus-ring)}
 
 /* ── Progress Bar ── */
 .progress-bar{position:fixed;top:0;left:0;width:0%;height:2px;background:linear-gradient(90deg,var(--accent),#00D4FF);z-index:300;transition:width .1s}
