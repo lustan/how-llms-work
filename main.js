@@ -1,4 +1,104 @@
 // ═══════════════════════════════════════════════
+// I18N — English / Chinese language switcher
+// ═══════════════════════════════════════════════
+(function(){
+  const STORAGE_KEY = 'how-llms-work-language';
+  const zh = {
+    'How LLMs Work — A Visual Deep Dive': '大语言模型如何工作 — 可视化深度解析',
+    'Skip to main content': '跳到主要内容',
+    'How LLMs Work': '大语言模型如何工作',
+    'Part 2 →': '第 2 部分 →',
+    'Part 3 →': '第 3 部分 →',
+    'Intro': '导言', 'Data': '数据', 'Tokens': 'Token', 'Training': '训练', 'Inference': '推理', 'Base Model': '基础模型', 'Post-Train': '后训练', 'Psychology': '心理学', 'RAG': 'RAG', 'Security': '安全', 'Pipeline': '流程',
+    'A Visual Deep Dive': '可视化深度解析', 'Actually': '真正', 'Work': '运作',
+    'A complete walkthrough of how large language models like ChatGPT are built — from raw internet text to a conversational assistant. Based on Andrej Karpathy\'s technical deep dive.': '完整讲解 ChatGPT 这类大语言模型如何构建——从原始互联网文本到对话式助手。基于 Andrej Karpathy 的技术深度解析。',
+    'Training Tokens': '训练 Token', 'Parameters': '参数量', 'Text Data': '文本数据', 'Token Vocabulary': 'Token 词表',
+    'Representative figures from frontier models circa 2024 — exact numbers shift with every release. The scale is the point, not the precision.': '这些是 2024 年前沿模型的代表性数字——每次发布都会变化。重点在规模，而非精确数值。',
+    'Scroll to explore': '向下滚动探索', 'Live LLM Response': '实时 LLM 响应', 'Human: What is behind this text box?': '用户：这个文本框背后是什么？',
+    'Chapter 1 · Pre-Training · Stage 1': '第 1 章 · 预训练 · 阶段 1', 'Downloading': '下载', 'the Internet': '互联网',
+    'The first step is collecting an enormous amount of text. Organizations like': '第一步是收集海量文本。像',
+    'have been crawling the web since 2007 — indexing 2.7 billion pages by 2024. This raw data is then filtered into a high-quality dataset like': '这样的组织自 2007 年以来一直抓取网页，到 2024 年已索引 27 亿个页面。这些原始数据随后会被过滤成类似',
+    '.': '。', 'The goal:': '目标：', 'large quantity': '数量巨大', 'of': '且', 'high quality': '高质量', 'diverse': '多样化',
+    'documents. After aggressive filtering, you end up with about': '的文档。经过严格过滤后，最终得到约',
+    '44 terabytes': '44 TB', '— roughly 10 consumer hard drives worth of text — representing ~15 trillion tokens.': '——大约相当于 10 块消费级硬盘的文本——约 15 万亿个 token。',
+    'Key Insight': '关键洞察', 'The quality and diversity of this training data has more impact on the final model than almost anything else. Garbage in, garbage out — but at a trillion-token scale.': '训练数据的质量和多样性对最终模型的影响几乎超过其他任何因素。垃圾进，垃圾出——只是在万亿 token 的规模上。',
+    'Click any stage to read more detail': '点击任意阶段查看详情', '🌐 Common Crawl': '🌐 Common Crawl', '2.7B web pages · Raw HTML · Since 2007': '27 亿网页 · 原始 HTML · 自 2007 年起',
+    'A non-profit organization that crawls the web and freely provides its data. Their bots follow links from seed pages, recursively indexing the internet. The raw archive is petabytes of gzip\'d WARC files containing raw HTML.': '这是一个抓取网页并免费提供数据的非营利组织。它的机器人从种子页面沿链接递归索引互联网。原始归档是 PB 级 gzip 压缩 WARC 文件，包含原始 HTML。',
+    '🚫 URL Filtering': '🚫 URL 过滤', 'Blocklists · Malware · Spam · Adult content': '黑名单 · 恶意软件 · 垃圾内容 · 成人内容',
+    'Block-lists of known malware sites, spam networks, adult content, marketing pages, and low-quality domains are applied. Entire domains can be removed. This is the cheapest filter so it runs first.': '先应用已知恶意站点、垃圾网络、成人内容、营销页面和低质量域名黑名单。整个域名都可能被移除。这是成本最低的过滤步骤，因此最先执行。',
+    '📄 Text Extraction': '📄 文本提取', 'HTML → clean text · Remove navigation & CSS': 'HTML → 干净文本 · 移除导航与 CSS',
+    '🌍 Language Filtering': '🌍 语言过滤', 'Keep pages ≥65% English · Language classifier': '保留 ≥65% 英文页面 · 语言分类器',
+    '♻️ Deduplication': '♻️ 去重', 'Exact & fuzzy matching · Reduce repetition': '精确与模糊匹配 · 减少重复',
+    '🔒 PII Removal': '🔒 移除个人信息', 'Names · Addresses · SSNs · Emails': '姓名 · 地址 · 社保号 · 邮箱',
+    '✅ FineWeb Dataset': '✅ FineWeb 数据集', '44 TB · 15 Trillion tokens · High quality': '44 TB · 15 万亿 token · 高质量',
+    '▶ Animate Pipeline': '▶ 播放流程动画', 'Chapter 1 · Pre-Training · Stage 2': '第 1 章 · 预训练 · 阶段 2',
+    'Tokenization': 'Token 化', 'Neural networks can\'t process raw text — they need numbers. The solution is': '神经网络无法直接处理原始文本——它们需要数字。解决方案是',
+    'tokenization': 'token 化', ': breaking text into "tokens" (sub-word chunks) and assigning each an ID.': '：把文本拆成“token”（子词片段），并为每个片段分配 ID。',
+    'Why not just use words?': '为什么不直接用单词？', 'BPE in Action': 'BPE 实战', 'BPE Tokenization Steps': 'BPE Token 化步骤', 'Interactive diagram showing how Byte Pair Encoding progressively merges characters into subword tokens': '交互图展示 Byte Pair Encoding 如何逐步将字符合并为子词 token',
+    'Next Step →': '下一步 →', 'Step 1 of 5': '第 1 / 5 步', 'Try the real tokenizer → tiktokenizer.vercel.app': '试试真实 tokenizer → tiktokenizer.vercel.app',
+    'Chapter 1 · Pre-Training · Stage 3': '第 1 章 · 预训练 · 阶段 3', 'Training the': '训练', 'Neural Network': '神经网络',
+    'Scale': '规模', 'Scaling Laws': '缩放定律', 'Transformer Architecture': 'Transformer 架构', 'What is an Embedding?': '什么是 Embedding？',
+    'Select a training stage to see model output quality': '选择训练阶段查看模型输出质量', 'Step 1': '第 1 步', 'Step 500': '第 500 步', 'Step 5K': '第 5K 步', 'Step 32K': '第 32K 步',
+    'Training Loss ↓': '训练损失 ↓', 'Cross-entropy loss': '交叉熵损失', 'Training step': '训练步数', 'Model Output at This Stage': '该阶段的模型输出', 'What the model is learning': '模型正在学习什么',
+    'Chapter 1 · Pre-Training · Stage 4': '第 1 章 · 预训练 · 阶段 4', 'Inference &': '推理与', 'Token Sampling': 'Token 采样',
+    'Key Mental Model': '关键心智模型', 'Token Sampling Demo': 'Token 采样演示', 'Watch the model choose the next word. Each bar shows the probability of a candidate token.': '观察模型如何选择下一个词。每个条形表示候选 token 的概率。',
+    'The sky appears blue': 'The sky appears blue', 'Temperature': '温度', '(randomness)': '（随机性）', 'Next token candidates': '下一个 token 候选', 'Sample Next Token': '采样下一个 Token', 'Reset': '重置',
+    'Chapter 2 · The Base Model': '第 2 章 · 基础模型', 'The Internet': '互联网', 'Simulator': '模拟器', 'Base Model Behavior': '基础模型行为', 'Few-Shot Prompting': '少样本提示', '✓ correct': '✓ 正确', 'Memorization': '记忆', 'Hallucination': '幻觉', 'In-Context Learning': '上下文学习', 'An LLM Is Literally Two Files': 'LLM 本质上就是两个文件',
+    'Chapter 3 · Post-Training': '第 3 章 · 后训练', 'Building the Assistant': '构建助手', 'Supervised Fine-Tuning (SFT)': '监督微调（SFT）', 'Training Conversation Example': '训练对话示例', 'Human': '用户', 'Assistant': '助手', 'What is 2 + 2?': '2 + 2 等于多少？', 'What if it was multiplication instead?': '如果改成乘法呢？', 'What you\'re really talking to': '你真正对话的对象', 'Conversation Token Format': '对话 Token 格式', 'Then RLHF refines the assistant\'s behavior further:': '随后 RLHF 进一步优化助手行为：', 'RLHF — Reinforcement Learning': 'RLHF — 强化学习', 'from Human Feedback': '来自人类反馈', '✓ Preferred': '✓ 更优回答', '✗ Rejected': '✗ 被拒回答', 'Why RLHF matters': '为什么 RLHF 重要',
+    'Chapter 4 · LLM Psychology': '第 4 章 · LLM 心理学', 'Cognitive Quirks': '认知特性', 'of Language Models': '语言模型的', 'Understanding': '理解', 'why': '为什么', '🧠': '🧠', 'Two Types of Memory': '两类记忆', '🔧': '🔧', 'Tool Use': '工具使用', '🪞': '🪞', 'No Persistent Self': '没有持久自我', '📊': '📊', 'Stochastic Token Tumbler': '随机 Token 滚筒', '📚': '📚', 'Knowledge Cutoff': '知识截止', '↔️': '↔️', 'The Reversal Curse': '反转诅咒', '⚡': '⚡', 'System 1 Only — No Deep Thinking': '只有系统 1——没有深度思考',
+    'Applied LLMs · RAG': '应用型 LLM · RAG', 'Retrieval-Augmented': '检索增强', 'Generation': '生成', 'Step 01 — Embed everything': '步骤 01 — 嵌入所有内容', 'Step 02 — Embed the query & search': '步骤 02 — 嵌入查询并搜索', 'Step 03 — Inject & generate': '步骤 03 — 注入并生成', '1 · User Query': '1 · 用户查询', '2 · Embedding Model': '2 · 嵌入模型', '3 · Vector DB — Cosine Search': '3 · 向量数据库 — 余弦搜索', '4 · Retrieved Chunks (top 2)': '4 · 检索片段（前 2 个）', '5 · Context Window (assembled)': '5 · 上下文窗口（组装后）', '6 · LLM → Grounded Answer': '6 · LLM → 有依据的回答', 'Effect on Predictions': '对预测的影响', 'Query': '查询', '▶ Run RAG Query': '▶ 运行 RAG 查询', 'Knowledge Base — 4 documents': '知识库 — 4 个文档', 'Context Injected Into Prompt': '注入提示词的上下文', 'Without RAG': '没有 RAG', 'With RAG': '有 RAG', 'Grounded in retrieved context': '基于检索上下文',
+    'Chapter 5 · Security': '第 5 章 · 安全', 'Security Challenges': '安全挑战', 'in LLM Systems': '在 LLM 系统中', '🔓': '🔓', 'Jailbreak Attacks': '越狱攻击', '💉': '💉', 'Prompt Injection': '提示注入', '☠️': '☠️', 'Data Poisoning & Backdoors': '数据投毒与后门', '🐼': '🐼', 'Adversarial Inputs': '对抗输入', '🐱': '🐱', 'Cat-and-Mouse Dynamics': '猫鼠博弈',
+    'Full Pipeline': '完整流程', 'From Text to': '从文本到', 'Assistant': '助手', 'The complete journey from raw web crawl to the ChatGPT you interact with — across two major stages, months of compute, and billions of parameters.': '从原始网页抓取到你交互的 ChatGPT 的完整旅程——跨越两大阶段、数月计算和数十亿参数。',
+    'Data Collection': '数据收集', 'Pre-Training': '预训练', 'Supervised Fine-Tuning (SFT)': '监督微调（SFT）', 'Reward Model': '奖励模型', 'Human preferences': '人类偏好', 'Conversational': '对话式', 'Helpful · Truthful · Harmless': '有帮助 · 真实 · 无害', 'Tool use': '工具使用',
+    'Mental Model': '心智模型', 'Think of an LLM as an Operating System': '把 LLM 想成一个操作系统', 'Memory Hierarchy': '记忆层级', 'Where the Field Is Headed': '领域发展方向', 'System 2 Thinking': '系统 2 思考', 'Self-Improvement': '自我改进', 'Customization': '定制化', 'Multimodality': '多模态', 'HN discussion': 'HN 讨论', 'GitHub': 'GitHub', 'Full lecture transcript': '完整讲座转录', 'HN update note': 'HN 更新说明', 'LLM council report': 'LLM 委员会报告', 'v1 (original)': 'v1（原版）', 'Part 2: How to Use LLMs →': '第 2 部分：如何使用 LLM →'
+  };
+
+  function normalize(text) { return text.replace(/\s+/g, ' ').trim(); }
+  function preserveWhitespace(original, translated) {
+    const leading = original.match(/^\s*/)[0];
+    const trailing = original.match(/\s*$/)[0];
+    return `${leading}${translated}${trailing}`;
+  }
+  function translateNode(node, lang) {
+    if (!node.__i18nSource) node.__i18nSource = node.nodeValue;
+    const key = normalize(node.__i18nSource);
+    if (!key) return;
+    node.nodeValue = lang === 'zh' && zh[key] ? preserveWhitespace(node.__i18nSource, zh[key]) : node.__i18nSource;
+  }
+  function applyLanguage(lang) {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.title = lang === 'zh' ? zh['How LLMs Work — A Visual Deep Dive'] : 'How LLMs Work — A Visual Deep Dive';
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || ['SCRIPT','STYLE','NOSCRIPT','TEXTAREA'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        return normalize(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => translateNode(node, lang));
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      const active = btn.dataset.lang === lang;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
+    window.dispatchEvent(new CustomEvent('i18n:change', { detail: { lang } }));
+  }
+  function t(en, lang = currentLanguage()) { return lang === 'zh' && zh[en] ? zh[en] : en; }
+  function currentLanguage() { return document.documentElement.lang === 'zh-CN' ? 'zh' : 'en'; }
+
+  window.i18n = { applyLanguage, t, currentLanguage, zh };
+  document.addEventListener('DOMContentLoaded', () => {
+    const saved = (() => { try { return localStorage.getItem(STORAGE_KEY); } catch (_) { return null; } })();
+    const initial = saved || (navigator.language && navigator.language.toLowerCase().startsWith('zh') ? 'zh' : 'en');
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.dataset.lang)));
+    applyLanguage(initial === 'zh' ? 'zh' : 'en');
+  });
+})();
+
+// ═══════════════════════════════════════════════
 // HERO CANVAS — Floating Token Fragments
 // ═══════════════════════════════════════════════
 (function(){
@@ -68,7 +168,7 @@
   let mi = 0, ci = 0, deleting = false, pauseTimer = null;
 
   function type() {
-    const msg = messages[mi];
+    const msg = window.i18n ? window.i18n.t(messages[mi]) : messages[mi];
     if (!deleting) {
       if (ci < msg.length) {
         el.innerHTML = msg.slice(0, ++ci) + '<span class="tw-cursor"></span>';
@@ -87,6 +187,10 @@
       }
     }
   }
+  window.addEventListener('i18n:change', () => {
+    if (pauseTimer) clearTimeout(pauseTimer);
+    ci = 0; deleting = false; el.innerHTML = '<span class="tw-cursor"></span>';
+  });
   setTimeout(type, 1200);
 })();
 
@@ -107,7 +211,8 @@
   function renderStep() {
     const s = steps[step];
     const colors = ['#635BFF','#946800','#0570DE','#00875A','#DF1B41','#4F46E5','#946800','#00875A'];
-    let html = `<text x="190" y="24" text-anchor="middle" font-family="Barlow Condensed" font-size="11" fill="#697386" letter-spacing="2">${s.desc.toUpperCase()}</text>`;
+    const tr = (text) => window.i18n ? window.i18n.t(text) : text;
+    let html = `<text x="190" y="24" text-anchor="middle" font-family="Barlow Condensed" font-size="11" fill="#697386" letter-spacing="2">${tr(s.desc).toUpperCase()}</text>`;
 
     const tokenW = Math.min(340 / s.tokens.length - 4, 52);
     const startX = (380 - (s.tokens.length * (tokenW + 4))) / 2;
@@ -121,7 +226,7 @@
 
     html += `<rect x="10" y="82" width="360" height="1" fill="#E3E8EF"/>`;
     html += `<text x="10" y="100" font-family="JetBrains Mono" font-size="10" fill="#697386">TOKENS: ${s.tokens.length}</text>`;
-    html += `<text x="370" y="100" text-anchor="end" font-family="JetBrains Mono" font-size="10" fill="#635BFF">${s.label}</text>`;
+    html += `<text x="370" y="100" text-anchor="end" font-family="JetBrains Mono" font-size="10" fill="#635BFF">${tr(s.label)}</text>`;
 
     steps.forEach((_, i) => {
       const cx = 50 + i * 70;
@@ -130,17 +235,17 @@
       html += `<text x="${cx}" y="150" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="${i === step ? '#635BFF' : '#697386'}">${i+1}</text>`;
     });
 
-    html += `<text x="190" y="185" text-anchor="middle" font-family="Barlow Condensed" font-size="11" fill="#697386" letter-spacing="1">CLICK TO ADVANCE</text>`;
+    html += `<text x="190" y="185" text-anchor="middle" font-family="Barlow Condensed" font-size="11" fill="#697386" letter-spacing="1">${tr('CLICK TO ADVANCE')}</text>`;
 
     const barW = Math.max(8, Math.min(340, step === 4 ? 340 * (2/100277) * 10000 : step === 0 ? 30 : step === 1 ? 80 : step === 2 ? 160 : 260));
     html += `<rect x="20" y="205" width="340" height="6" rx="0" fill="#F6F9FC"/>`;
     html += `<rect x="20" y="205" width="${barW}" height="6" rx="0" fill="url(#grad)"/>`;
     html += `<defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#635BFF"/><stop offset="1" stop-color="#946800"/></linearGradient></defs>`;
-    html += `<text x="20" y="225" font-family="JetBrains Mono" font-size="9" fill="#697386">SEQUENCE LENGTH →</text>`;
-    html += `<text x="360" y="225" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="#697386">← VOCAB SIZE</text>`;
+    html += `<text x="20" y="225" font-family="JetBrains Mono" font-size="9" fill="#697386">${tr('SEQUENCE LENGTH →')}</text>`;
+    html += `<text x="360" y="225" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="#697386">${tr('← VOCAB SIZE')}</text>`;
 
     const annotations = ['12 symbols (chars)','12 symbols (bytes: 0–255)','7 tokens','3 tokens','2 tokens ✓'];
-    html += `<text x="190" y="260" text-anchor="middle" font-family="Inter" font-size="13" font-weight="700" fill="#1A1F36">${annotations[step]}</text>`;
+    html += `<text x="190" y="260" text-anchor="middle" font-family="Inter" font-size="13" font-weight="700" fill="#1A1F36">${tr(annotations[step])}</text>`;
 
     svg.innerHTML = html;
   }
@@ -149,13 +254,14 @@
     step = (step + 1) % steps.length;
     renderStep();
     const lbl = document.getElementById('bpe-step-label');
-    if (lbl) lbl.textContent = `Step ${step + 1} of ${steps.length}`;
+    if (lbl) lbl.textContent = window.i18n && window.i18n.currentLanguage() === 'zh' ? `第 ${step + 1} / ${steps.length} 步` : `Step ${step + 1} of ${steps.length}`;
   }
 
   renderStep();
   svg.addEventListener('click', advance);
   const advBtn = document.getElementById('bpe-advance-btn');
   if (advBtn) advBtn.addEventListener('click', advance);
+  window.addEventListener('i18n:change', renderStep);
 })();
 
 
@@ -185,7 +291,7 @@
     const h = isMain ? 32 : 26;
     const alpha = i === 5 ? '20' : '18';
     html += `<rect x="30" y="${layer.y - h/2}" width="300" height="${h}" rx="5" fill="${layer.color}${alpha}" stroke="${layer.color}40" stroke-width="1.5"/>`;
-    html += `<text x="180" y="${layer.y + 5}" text-anchor="middle" font-family="JetBrains Mono" font-size="${isMain ? 11 : 10}" fill="${layer.color}">${layer.label}</text>`;
+    html += `<text x="180" y="${layer.y + 5}" text-anchor="middle" font-family="JetBrains Mono" font-size="${isMain ? 11 : 10}" fill="${layer.color}">${window.i18n ? window.i18n.t(layer.label) : layer.label}</text>`;
     if (i < layers.length - 1) {
       const nextY = layers[i+1].y + (isMain ? 16 : 13);
       html += `<line x1="180" y1="${layer.y - h/2}" x2="180" y2="${nextY + 2}" stroke="${layer.color}50" stroke-width="1" stroke-dasharray="${i>=4?'3,3':''}"/>`;
@@ -197,6 +303,28 @@
   html += `<circle cx="270" cy="220" r="4" fill="#635BFF" opacity="0.55"><animate attributeName="r" values="3;6;3" dur="2s" begin="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.55;1;0.55" dur="2s" begin="1s" repeatCount="indefinite"/></circle>`;
 
   svg.innerHTML = html;
+  window.addEventListener('i18n:change', () => {
+    html = '';
+    for (let i = 0; i < 8; i++) {
+      html += `<line x1="${45*i}" y1="0" x2="${45*i}" y2="340" stroke="rgba(216,208,194,0.7)" stroke-width=".5"/>`;
+      html += `<line x1="0" y1="${45*i}" x2="360" y2="${45*i}" stroke="rgba(216,208,194,0.7)" stroke-width=".5"/>`;
+    }
+    layers.forEach((layer, i) => {
+      const isMain = i >= 2 && i <= 3;
+      const h = isMain ? 32 : 26;
+      const alpha = i === 5 ? '20' : '18';
+      html += `<rect x="30" y="${layer.y - h/2}" width="300" height="${h}" rx="5" fill="${layer.color}${alpha}" stroke="${layer.color}40" stroke-width="1.5"/>`;
+      html += `<text x="180" y="${layer.y + 5}" text-anchor="middle" font-family="JetBrains Mono" font-size="${isMain ? 11 : 10}" fill="${layer.color}">${window.i18n ? window.i18n.t(layer.label) : layer.label}</text>`;
+      if (i < layers.length - 1) {
+        const nextY = layers[i+1].y + (isMain ? 16 : 13);
+        html += `<line x1="180" y1="${layer.y - h/2}" x2="180" y2="${nextY + 2}" stroke="${layer.color}50" stroke-width="1" stroke-dasharray="${i>=4?'3,3':''}"/>`;
+        html += `<polygon points="175,${nextY + 8} 185,${nextY + 8} 180,${nextY + 14}" fill="${layers[i+1].color}80"/>`;
+      }
+    });
+    html += `<circle cx="90" cy="220" r="4" fill="#635BFF" opacity="0.55"><animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.55;1;0.55" dur="2s" repeatCount="indefinite"/></circle>`;
+    html += `<circle cx="270" cy="220" r="4" fill="#635BFF" opacity="0.55"><animate attributeName="r" values="3;6;3" dur="2s" begin="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.55;1;0.55" dur="2s" begin="1s" repeatCount="indefinite"/></circle>`;
+    svg.innerHTML = html;
+  });
 })();
 
 // ═══════════════════════════════════════════════
