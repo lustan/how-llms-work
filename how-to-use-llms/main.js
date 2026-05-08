@@ -1,4 +1,71 @@
 // ═══════════════════════════════════════════════
+// I18N — page translations
+// ═══════════════════════════════════════════════
+(function(){
+  window.AppI18n.registerTranslations('zh', {
+    'How to Use LLMs — A Practical Guide': '如何使用大语言模型 — 实用指南',
+    'Skip to main content': '跳到主要内容',
+    'Reading progress': '阅读进度',
+    'Chapter navigation': '章节导航',
+    'Language selector': '语言选择器',
+    '← Part 1': '← 第 1 部分',
+    'Part 3 →': '第 3 部分 →',
+    'Intro': '导言',
+    'ZIP File': 'ZIP 文件',
+    'Models': '模型',
+    'Thinking': '思考',
+    'Search': '搜索',
+    'Research': '研究',
+    'Docs': '文档',
+    'Code': '代码',
+    'Agents': '智能体',
+    'Voice': '语音',
+    'Vision': '视觉',
+    'Memory': '记忆',
+    'Resources': '资源',
+    'Summary': '总结',
+    'Part 2 · A Practical Guide': '第 2 部分 · 实用指南',
+    'How to Use': '如何使用',
+    'LLMs': '大语言模型',
+    'Beyond the internals — a practical walkthrough of how to actually use large language models in your daily work. Based on Andrej Karpathy\'s follow-up to his LLM deep dive.': '不止理解内部原理——这是一份关于如何在日常工作中真正使用大语言模型的实用指南，基于 Andrej Karpathy 对 LLM 深度解析的后续内容。',
+    'Tools Covered': '覆盖工具',
+    'Use Cases': '使用场景',
+    'Source': '来源',
+    'Companion to': '配套阅读：',
+    'Part 1: How LLMs Work': '第 1 部分：大语言模型如何工作',
+    'All content and examples traced directly to Karpathy\'s 2025 video.': '所有内容和示例均直接追溯到 Karpathy 2025 年的视频。',
+    'Scroll to explore': '向下滚动探索',
+    'Practical Tip': '实用提示',
+    'Practical LLM tip': '实用 LLM 提示',
+    'Q: What should I know before using this?': '问：使用前我应该知道什么？',
+    'Chapter 1 · Foundation': '第 1 章 · 基础',
+    "You're Talking to": '你正在对话的是',
+    'a ZIP File': '一个 ZIP 文件',
+    'The Introduction': '自我介绍',
+    'Context window': '上下文窗口',
+    'Training cutoff': '训练截止时间',
+    'No live web by default': '默认没有实时联网',
+    'Thinking...': '思考中...',
+    'Run Demo': '运行演示',
+    'Run again': '再次运行',
+    'thinking for': '已思考',
+    'Done.': '完成。',
+    'thought for': '思考完成，用时',
+    'Let me think about what it means for a number to be odd...': '先想想一个数是奇数意味着什么...',
+    'An odd number can be written as 2k+1 for some integer k. Let me use that definition.': '奇数可以写成 2k+1，其中 k 是整数。用这个定义来推导。',
+    'If I have two odd numbers: a = 2j+1 and b = 2k+1...': '如果有两个奇数：a = 2j+1，b = 2k+1...',
+    'Their sum: a + b = (2j+1) + (2k+1) = 2j + 2k + 2 = 2(j+k+1)': '它们的和：a + b = (2j+1) + (2k+1) = 2j + 2k + 2 = 2(j+k+1)',
+    'Since j+k+1 is an integer, 2(j+k+1) is divisible by 2 — which is the definition of even.': '由于 j+k+1 是整数，2(j+k+1) 可以被 2 整除——这正是偶数的定义。',
+    'Let two odd integers be a = 2j+1 and b = 2k+1. Then a+b = 2j+1 + 2k+1 = 2(j+k+1). Since j+k+1 ∈ ℤ, the sum is even. □': '设两个奇整数为 a = 2j+1 和 b = 2k+1。则 a+b = 2j+1 + 2k+1 = 2(j+k+1)。由于 j+k+1 ∈ ℤ，所以它们的和是偶数。□',
+    'It has no memory of you, its knowledge is 6–12 months stale, and every answer is a probabilistic sample. Treat it like a brilliant intern — not an oracle.': '它不会记住你，知识通常滞后 6–12 个月，每个答案都是概率采样。把它当作聪明的实习生，而不是神谕。',
+    'For timeless knowledge, skip web search — the weights are enough. For anything recent, time-sensitive, or esoteric — enable search or use Perplexity.': '对于稳定知识，可以不使用网页搜索——模型权重已经足够。对于近期、时效性强或冷门的问题，请开启搜索或使用 Perplexity。',
+    'Voice removes half the friction. Super Whisper can route ~50% of your queries hands-free. Switch to typing for product names and library names Whisper gets wrong.': '语音能减少一半阻力。Super Whisper 可让约 50% 的查询免手输入。遇到 Whisper 容易听错的产品名和库名时再切回键盘。',
+    "Thinking models (o1, o3) are for hard problems. They're slower and pricier — don't waste them on simple tasks. Claude Sonnet often beats o1 Pro on nuanced code.": '思考模型（o1、o3）适合难题。它们更慢也更贵——别浪费在简单任务上。复杂代码场景下 Claude Sonnet 经常优于 o1 Pro。'
+  });
+  window.AppI18n.init();
+})();
+
+// ═══════════════════════════════════════════════
 // HERO CANVAS — Floating Usage Words
 // ═══════════════════════════════════════════════
 (function(){
@@ -55,8 +122,14 @@
   ];
   let mi = 0, ci = 0, deleting = false;
 
+  window.addEventListener('i18n:change', () => {
+    ci = 0;
+    deleting = false;
+    if (el) el.innerHTML = '<span class="tw-cursor"></span>';
+  });
+
   function type() {
-    const msg = messages[mi];
+    const msg = window.i18n ? window.i18n.t(messages[mi]) : messages[mi];
     if (!deleting) {
       if (ci < msg.length) {
         el.innerHTML = msg.slice(0, ++ci) + '<span class="tw-cursor"></span>';
@@ -104,32 +177,32 @@
     if (running) return;
     running = true;
     runBtn.disabled = true;
-    runBtn.textContent = 'Thinking...';
+    runBtn.textContent = window.i18n ? window.i18n.t('Thinking...') : 'Thinking...';
     stepsEl.innerHTML = '';
     answerEl.style.display = 'none';
 
     let elapsed = 0;
     const timer = setInterval(() => {
       elapsed++;
-      timeEl.textContent = `thinking for ${elapsed}s...`;
+      timeEl.textContent = window.i18n && window.i18n.currentLanguage() === 'zh' ? `已思考 ${elapsed} 秒...` : `thinking for ${elapsed}s...`;
     }, 1000);
 
     steps.forEach((step, i) => {
       setTimeout(() => {
         const div = document.createElement('div');
         div.className = 'thinking-step';
-        div.innerHTML = `<span class="ts-icon">${step.icon}</span><span class="ts-text">${step.text}</span>`;
+        div.innerHTML = `<span class="ts-icon">${step.icon}</span><span class="ts-text">${window.i18n ? window.i18n.t(step.text) : step.text}</span>`;
         stepsEl.appendChild(div);
       }, i * 700);
     });
 
     setTimeout(() => {
       clearInterval(timer);
-      timeEl.textContent = `thought for ${steps.length - 1}s`;
+      timeEl.textContent = window.i18n && window.i18n.currentLanguage() === 'zh' ? `思考完成，用时 ${steps.length - 1} 秒` : `thought for ${steps.length - 1}s`;
       answerEl.style.display = 'block';
-      contentEl.textContent = answer;
+      contentEl.textContent = window.i18n ? window.i18n.t(answer) : answer;
       runBtn.disabled = false;
-      runBtn.textContent = '↺ Run again';
+      runBtn.textContent = window.i18n && window.i18n.currentLanguage() === 'zh' ? '↺ 再次运行' : '↺ Run again';
       running = false;
     }, steps.length * 700 + 300);
   });
@@ -280,7 +353,7 @@
       steps[2].style.display = 'block';
       drawChart();
       runBtn.disabled = false;
-      runBtn.textContent = '↺ Run again';
+      runBtn.textContent = window.i18n && window.i18n.currentLanguage() === 'zh' ? '↺ 再次运行' : '↺ Run again';
       running = false;
     }, 2400);
   });

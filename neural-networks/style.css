@@ -48,6 +48,11 @@ button:focus-visible,[role="button"]:focus-visible,input:focus-visible,textarea:
 .tnav-btn{border:none;background:none;font-family:var(--ds);font-size:12px;font-weight:500;letter-spacing:0;color:var(--txt2);cursor:pointer;padding:6px 12px;height:32px;white-space:nowrap;flex-shrink:0;border-radius:6px;border-bottom:none;transition:background .15s,color .15s}
 .tnav-btn:hover{color:var(--ink);background:var(--surface)}
 .tnav-btn.active{color:var(--accent);background:var(--accent-d);font-weight:600}
+.language-switcher{display:inline-flex;align-items:center;gap:2px;margin-right:8px;padding:2px;border:1px solid var(--border);border-radius:999px;background:var(--surface);flex-shrink:0}
+.lang-btn{border:0;background:transparent;color:var(--txt2);font-family:var(--ds);font-size:11px;font-weight:700;line-height:1;min-width:30px;height:24px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s,box-shadow .15s}
+.lang-btn:hover{color:var(--ink)}
+.lang-btn.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(99,91,255,0.2)}
+.lang-btn:focus-visible{outline:none;box-shadow:var(--focus-ring)}
 .tnav-btn:focus-visible{outline:none;box-shadow:var(--focus-ring)}
 
 /* ── Progress Bar ── */

@@ -1,9 +1,8 @@
 // ═══════════════════════════════════════════════
-// I18N — English / Chinese language switcher
+// I18N — page translations
 // ═══════════════════════════════════════════════
 (function(){
-  const STORAGE_KEY = 'how-llms-work-language';
-  const zh = {
+  window.AppI18n.registerTranslations('zh', {
     'How LLMs Work — A Visual Deep Dive': '大语言模型如何工作 — 可视化深度解析',
     'Skip to main content': '跳到主要内容',
     'How LLMs Work': '大语言模型如何工作',
@@ -51,51 +50,8 @@
     'Full Pipeline': '完整流程', 'From Text to': '从文本到', 'Assistant': '助手', 'The complete journey from raw web crawl to the ChatGPT you interact with — across two major stages, months of compute, and billions of parameters.': '从原始网页抓取到你交互的 ChatGPT 的完整旅程——跨越两大阶段、数月计算和数十亿参数。',
     'Data Collection': '数据收集', 'Pre-Training': '预训练', 'Supervised Fine-Tuning (SFT)': '监督微调（SFT）', 'Reward Model': '奖励模型', 'Human preferences': '人类偏好', 'Conversational': '对话式', 'Helpful · Truthful · Harmless': '有帮助 · 真实 · 无害', 'Tool use': '工具使用',
     'Mental Model': '心智模型', 'Think of an LLM as an Operating System': '把 LLM 想成一个操作系统', 'Memory Hierarchy': '记忆层级', 'Where the Field Is Headed': '领域发展方向', 'System 2 Thinking': '系统 2 思考', 'Self-Improvement': '自我改进', 'Customization': '定制化', 'Multimodality': '多模态', 'HN discussion': 'HN 讨论', 'GitHub': 'GitHub', 'Full lecture transcript': '完整讲座转录', 'HN update note': 'HN 更新说明', 'LLM council report': 'LLM 委员会报告', 'v1 (original)': 'v1（原版）', 'Part 2: How to Use LLMs →': '第 2 部分：如何使用 LLM →'
-  };
-
-  function normalize(text) { return text.replace(/\s+/g, ' ').trim(); }
-  function preserveWhitespace(original, translated) {
-    const leading = original.match(/^\s*/)[0];
-    const trailing = original.match(/\s*$/)[0];
-    return `${leading}${translated}${trailing}`;
-  }
-  function translateNode(node, lang) {
-    if (!node.__i18nSource) node.__i18nSource = node.nodeValue;
-    const key = normalize(node.__i18nSource);
-    if (!key) return;
-    node.nodeValue = lang === 'zh' && zh[key] ? preserveWhitespace(node.__i18nSource, zh[key]) : node.__i18nSource;
-  }
-  function applyLanguage(lang) {
-    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-    document.title = lang === 'zh' ? zh['How LLMs Work — A Visual Deep Dive'] : 'How LLMs Work — A Visual Deep Dive';
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-      acceptNode(node) {
-        const parent = node.parentElement;
-        if (!parent || ['SCRIPT','STYLE','NOSCRIPT','TEXTAREA'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
-        return normalize(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-      }
-    });
-    const nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(node => translateNode(node, lang));
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      const active = btn.dataset.lang === lang;
-      btn.classList.toggle('active', active);
-      btn.setAttribute('aria-pressed', String(active));
-    });
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
-    window.dispatchEvent(new CustomEvent('i18n:change', { detail: { lang } }));
-  }
-  function t(en, lang = currentLanguage()) { return lang === 'zh' && zh[en] ? zh[en] : en; }
-  function currentLanguage() { return document.documentElement.lang === 'zh-CN' ? 'zh' : 'en'; }
-
-  window.i18n = { applyLanguage, t, currentLanguage, zh };
-  document.addEventListener('DOMContentLoaded', () => {
-    const saved = (() => { try { return localStorage.getItem(STORAGE_KEY); } catch (_) { return null; } })();
-    const initial = saved || (navigator.language && navigator.language.toLowerCase().startsWith('zh') ? 'zh' : 'en');
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.dataset.lang)));
-    applyLanguage(initial === 'zh' ? 'zh' : 'en');
   });
+  window.AppI18n.init();
 })();
 
 // ═══════════════════════════════════════════════

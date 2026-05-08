@@ -1,3 +1,47 @@
+// ═══════════════════════════════════════════════
+// I18N — page translations
+// ═══════════════════════════════════════════════
+(function(){
+  window.AppI18n.registerTranslations('zh', {
+    'Neural Networks from Scratch — A Visual Deep Dive': '从零构建神经网络 — 可视化深度解析',
+    'Skip to main content': '跳到主要内容',
+    'Reading progress': '阅读进度',
+    'Chapter navigation': '章节导航',
+    'Language selector': '语言选择器',
+    '← Part 2': '← 第 2 部分',
+    'Intro': '导言',
+    'Problem': '问题',
+    'Neuron': '神经元',
+    'Layers': '层',
+    'Forward': '前向传播',
+    'Loss': '损失',
+    'Derivatives': '导数',
+    'Backprop': '反向传播',
+    'Gradient Descent': '梯度下降',
+    'Part 3 · No Prior Knowledge Needed': '第 3 部分 · 无需先验知识',
+    'Neural Networks': '神经网络',
+    'from Scratch': '从零开始',
+    'The math, intuition, and code behind how neural networks actually learn — built up from a single neuron to a working training loop. Based on Andrej Karpathy\'s micrograd tutorial.': '用数学、直觉和代码解释神经网络究竟如何学习——从单个神经元逐步搭建到可运行的训练循环。基于 Andrej Karpathy 的 micrograd 教程。',
+    'Concepts': '概念',
+    'Lines of Python': 'Python 行数',
+    'Demos': '演示',
+    'Source': '来源',
+    'Companion to': '配套阅读：',
+    'Part 1: How LLMs Work': '第 1 部分：大语言模型如何工作',
+    'All concepts and code traced directly to Karpathy\'s micrograd lecture.': '所有概念和代码均直接追溯到 Karpathy 的 micrograd 课程。',
+    'Scroll to explore': '向下滚动探索',
+    'Core Insight': '核心洞察',
+    'Neural network insight': '神经网络洞察',
+    'Q: What even is a neural network?': '问：神经网络到底是什么？',
+    'Chapter 1 · The Problem': '第 1 章 · 问题',
+    'A neural network is a function with millions of adjustable knobs (weights). Training turns the knobs until the function\'s outputs match the examples it\'s shown.': '神经网络是一个带有数百万个可调旋钮（权重）的函数。训练就是不断调节这些旋钮，直到函数输出匹配给它看的样例。',
+    "Every word GPT generates is computed by the same forward pass you'll build here — just with 405 billion weights instead of 19.": 'GPT 生成的每个词都由你将在这里构建的同一种前向传播计算出来——只是它有 4050 亿个权重，而不是 19 个。',
+    "Backpropagation isn't magic: it's the chain rule applied recursively. Every weight gets told exactly how much it contributed to the error.": '反向传播不是魔法：它只是递归应用链式法则。每个权重都会知道自己对误差贡献了多少。',
+    "Gradient descent is just: move each weight a tiny step in the direction that reduces the loss. Repeat a billion times. That's training.": '梯度下降就是：让每个权重朝降低损失的方向移动一小步，重复十亿次。这就是训练。'
+  });
+  window.AppI18n.init();
+})();
+
 // Scale canvas to device pixel ratio, mapping nativeW×nativeH coordinate space
 // to the full CSS display area so drawings look crisp on Retina.
 function scaleCanvas(canvas, nativeW, nativeH) {
@@ -70,8 +114,14 @@ function scaleCanvas(canvas, nativeW, nativeH) {
   ];
   let mi = 0, ci = 0, deleting = false;
 
+  window.addEventListener('i18n:change', () => {
+    ci = 0;
+    deleting = false;
+    if (el) el.innerHTML = '<span class="tw-cursor"></span>';
+  });
+
   function type() {
-    const msg = messages[mi];
+    const msg = window.i18n ? window.i18n.t(messages[mi]) : messages[mi];
     if (!deleting) {
       if (ci < msg.length) {
         el.innerHTML = msg.slice(0, ++ci) + '<span class="tw-cursor"></span>';
