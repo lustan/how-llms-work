@@ -364,3 +364,9 @@ p.body-text{color:var(--txt);font-size:15.5px;line-height:1.75;margin-bottom:16p
 .transformer-card-title{font-family:var(--ds);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
 .transformer-heatmap{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:10px;border-radius:4px;overflow:hidden}
 .tc-cell{aspect-ratio:1;border-radius:2px}
+
+/* ── Language Switcher ── */
+.language-switcher{display:inline-flex;align-items:center;gap:2px;margin-right:8px;padding:2px;border:1px solid var(--border);border-radius:999px;background:var(--card);flex-shrink:0}
+.language-btn{border:none;background:transparent;color:var(--txt2);font-family:var(--ds);font-size:11px;font-weight:600;line-height:1;padding:7px 10px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.language-btn:hover,.language-btn:focus-visible{color:var(--accent);background:var(--accent-g)}
+.language-btn.active{color:#fff;background:var(--accent)}
